@@ -103,14 +103,42 @@ public class DocumentManager {
                 .findFirst();
     }
 
+    /**
+     * Implementation this method should find document by id
+     *
+     * @param id - document id
+     * @return optional document
+     */
+    public Optional<Document> findById(String id) {
+        return documents.stream()
+                .filter(d -> d.getId().equals(id))
+                .findFirst();
+    }
+
+    /**
+     * Method that generate id of document in format <i>DOC-{x}</i> where <i>{x}</i> - ordinal number of document
+     *
+     * @return generated document id.
+     */
     private String generateDocumentId() {
        return "DOC-" + idGenerator.incrementAndGet();
     }
 
+    /**
+     * Method that generate id of author in format <i>AUTH-{x}</i> where <i>{x}</i> - ordinal number of author
+     *
+     * @return generated author id
+     */
     private String generateAuthorId(){
         return "AUTH-" + authorIdGenerator.incrementAndGet();
     }
 
+    /**
+     * Generate title of document according that content
+     *
+     * @param content content of document
+     * @return generated document title
+     */
     private String generateTitle(String content){
         if (content == null || content.isEmpty()) {
             return "Untitled";
@@ -119,6 +147,12 @@ public class DocumentManager {
         }
     }
 
+    /**
+     * Get author object from documents repository according their name or generate new author object with new generated id
+     *
+     * @param name author name
+     * @return author object (that existed before or new)
+     */
     private Author getAuthorByName(String name) {
         return documents.stream()
                 .map(Document::getAuthor)
